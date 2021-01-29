@@ -1,0 +1,25 @@
+FROM python:3.9-slim as build-base
+
+ARG VERSION
+
+COPY dist/ /dist/
+RUN pip3 install /dist/clickandobey.dockerized.webservice-${VERSION}-py3-none-any.whl
+
+FROM python:3.9-slim
+
+ENV VERSION=1.0.0
+ENV PYTHON_VERSION=3.9
+
+WORKDIR /tests
+
+COPY --from=build-base /usr/local/lib/python${PYTHON_VERSION}/site-packages/ /usr/local/lib/python${PYTHON_VERSION}/site-packages/
+COPY --from=build-base /usr/local/bin/ /usr/local/bin/
+
+RUN pip install pytest
+# Add the xdist module to run tests in parallel.
+RUN pip install pytest-xdist
+
+# Copy over test files.
+COPY src/test/python /test/python/
+
+ENTRYPOINT ["python", "-m", "pytest"]

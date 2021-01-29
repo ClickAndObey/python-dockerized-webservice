@@ -1,0 +1,10 @@
+FROM python:3.9-slim
+
+RUN pip install pylint
+
+WORKDIR /workspace
+
+COPY src/.pylintrc /workspace
+
+COPY src/main/python /src_workspace
+RUN touch /src_workspace/__init__.py

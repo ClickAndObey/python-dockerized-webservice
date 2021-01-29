@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+WEBAPP_LOCAL_PORT=${1-9001}
+
+wait_for_webapp() {
+    local uri=localhost:$1/admin/status
+    local max_wait=60
+    local counter=1
+    local num_success=0
+    echo "Waiting for WebApp to be operational: ${uri} ..."
+    while [[ "$counter" -le "$max_wait" ]]
+    do
+        curl -XGET "${uri}" >/dev/null 2>&1
+        rc=$?
+        if [[ "$rc" -eq "0" ]]; then
+            ((num_success++))
+            if [[ "$num_success" -ge "3" ]]; then
+                echo "WebApp now available: ${uri} ..."
+                return
+            fi
+        fi
+        ((counter++))
+        sleep 1
+    done
+
+    echo "* WARNING WebApp not available after many tries: ${uri} ..."
+    exit 1
+}
+
+wait_for_webapp "${WEBAPP_LOCAL_PORT}"
