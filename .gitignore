@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Intellij Files
+.idea/
+
+# Build Targets
+package
+docker-build-app
+build-test-docker

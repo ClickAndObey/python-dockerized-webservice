@@ -1,0 +1,54 @@
+name: Python Dockerized Webservice Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  lintMarkdown:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Lint Markdown
+      run: |
+        make lint-markdown
+  lintPython:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Lint Python
+      run: |
+        make lint-python
+  unitTest:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Unit Test
+      run: |
+        make unit-test-docker FAIL_FAST=TRUE
+  integrationTest:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Integration Test
+      env:
+        IS_GITHUB_ACTION: TRUE
+      run: |
+        make integration-test-docker FAIL_FAST=TRUE
+  runApi:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run API
+      env:
+        IS_GITHUB_ACTION: TRUE
+      run: |
+        make docker-run-api
+  performRelease:
+    needs: [lintMarkdown, lintPython, unitTest, integrationTest, runApi]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Perform Release
+        run: |
+          make release VERSION=$(echo $GITHUB_REF | cut -d '/' -f 3)

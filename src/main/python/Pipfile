@@ -1,0 +1,20 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+flask-cors = "*"
+flask-restplus = "*"
+gevent = "*"
+gunicorn = "*"
+requests = "*"
+PyYAML = "*"
+
+# Pinning this package/version which is depended on by flask, but broken in the 1.0.1 version.
+werkzeug = "==0.16.1"
+
+[requires]
+python_version = "3.8"

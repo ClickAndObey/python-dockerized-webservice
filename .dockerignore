@@ -1,0 +1,8 @@
+# IDEA Files
+.idea/
+
+# Git Files
+.github/
+.git/
+.gitattributes
+.gitignore
