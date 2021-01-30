@@ -2,6 +2,7 @@
 Module used to define the base application configuration.
 """
 
+import json
 import logging
 import os
 import yaml
@@ -35,6 +36,12 @@ class WebserviceConfiguration:
         self.version = version or self.__get_default_version()
         self.environment = environment or self.__get_default_environment()
         self.config = config or self.__get_config(logger)
+
+    def __str__(self):
+        return self.__repr__()
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}: {json.dumps(self.to_dict(), sort_keys=True, indent=4)}"
 
     def __get_config(self, logger: logging.Logger) -> Dict:
         configuration_directory = os.getenv(self.__CONFIGURATION_DIRECTORY_ENV_VARIABLE, "/configuration")
