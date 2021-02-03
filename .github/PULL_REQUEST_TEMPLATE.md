@@ -1,9 +1,5 @@
 # Pull Request Details
 
-## Clubhouse Link
-
-[Clubhouse-1234](https://app.clubhouse.io/thehalfcourtpullup/story/1234)
-
 ## What Changed
 
 Give a simple synopsis of what has changed in this PR. Linking an issue should provide most of the useful context, but
