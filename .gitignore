@@ -135,3 +135,6 @@ dmypy.json
 package
 docker-build-app
 build-test-docker
+
+# MacOSX Files
+.DS_Store
