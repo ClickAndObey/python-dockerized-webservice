@@ -35,7 +35,5 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Integration Test
-      env:
-        IS_GITHUB_ACTION: TRUE
       run: |
         make integration-test-docker FAIL_FAST=TRUE
