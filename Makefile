@@ -158,7 +158,6 @@ integration-test-docker: build-test-docker docker-run-webservice
 		${INTERACTIVE} \
 		--env "VERSION=${VERSION}" \
 		--env "ENVIRONMENT=docker" \
-		--env "IS_GITHUB_ACTION=${IS_GITHUB_ACTION}" \
 		--name ${TEST_CONTAINER_NAME} \
 		--link ${APP_CONTAINER_NAME} \
 		${TEST_IMAGE_NAME} \
