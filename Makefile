@@ -11,6 +11,8 @@ SERVICE_NAME := python-dockerized-webservice
 PACKAGE_IMAGE_NAME := ${ORGANIZATION}-${SERVICE_NAME}-package
 
 APP_IMAGE_NAME := ${ORGANIZATION}-${SERVICE_NAME}-app
+GITHUB_REPO := "docker.pkg.github.com"
+APP_REPO_IMAGE_NAME := ${GITHUB_REPO}/${ORGANIZATION}/${SERVICE_NAME}/webservice:${VERSION}
 APP_PORT := 9001
 APP_CONTAINER_NAME := ${APP_IMAGE_NAME}
 
@@ -168,6 +170,14 @@ integration-test-docker: build-test-docker docker-run-webservice
 			${PDB} \
 			/test/python
 
+# Release
+
+release: docker-build-app github-docker-login
+	@echo Tagging webservice image to ${APP_REPO_IMAGE_NAME}...
+	@docker tag ${APP_IMAGE_NAME} ${APP_REPO_IMAGE_NAME}
+	@echo Pushing webservice docker image to ${APP_REPO_IMAGE_NAME}...
+	@docker push ${APP_REPO_IMAGE_NAME}
+
 # Linting
 
 lint: lint-markdown lint-python
@@ -213,3 +223,6 @@ setup-env:
 update-dependencies:
 	@cd ${PYTHON_PATH}; \
 	pipenv lock
+
+github-docker-login:
+	@echo ${GITHUB_TOKEN} | docker login https://docker.pkg.github.com -u ${GITHUB_USER} --password-stdin
