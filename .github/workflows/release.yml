@@ -33,15 +33,15 @@ jobs:
     - name: Integration Test
       run: |
         make integration-test-docker FAIL_FAST=TRUE
-  runApi:
+  runWebservice:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Run API
+    - name: Run Webservice
       run: |
-        make docker-run-api
+        make docker-run-webservice
   performRelease:
-    needs: [lintMarkdown, lintPython, unitTest, integrationTest, runApi]
+    needs: [lintMarkdown, lintPython, unitTest, integrationTest, runWebservice]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
