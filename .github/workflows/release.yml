@@ -46,5 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Perform Release
+        env:
+          CR_PAT: ${{ secrets.CR_PAT }}
         run: |
-          make release VERSION=$(echo $GITHUB_REF | cut -d '/' -f 3) GITHUB_USER=${{ github.actor }} CR_PAT=${{ secrets.GITHUB_TOKEN }}
+          make release VERSION=$(echo $GITHUB_REF | cut -d '/' -f 3) GITHUB_USER=${{ github.actor }}
